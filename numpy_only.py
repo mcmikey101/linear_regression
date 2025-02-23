@@ -5,15 +5,14 @@ import matplotlib.pyplot as plt
 
 X, y = load_diabetes(return_X_y=True)
 
+X = np.c_[np.ones(X.shape[0]), X]
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.8, shuffle=False)
 
 m = X_train.shape[0]
 n = X_train.shape[1]
 
-X_train = np.c_[np.ones(X_train.shape[0]), X_train]
-X_test = np.c_[np.ones(X_test.shape[0]), X_test]
-
-theta = np.zeros(n + 1)
+theta = np.zeros(n)
 
 def cost_function(X, theta, y):
     h = np.matmul(X, theta)
@@ -34,7 +33,13 @@ for i in range(iterations):
 
 print(R2_evaluation(X_test, theta, y_test))
 
+def predict(X, theta):
+    return np.matmul(X, theta)
+
+plt.figure()
 plt.plot(cost_history, [i for i in range(iterations)])
+plt.figure()
+plt.scatter(predict(X, theta), y)
 plt.show()
 
     
